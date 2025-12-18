@@ -1,0 +1,42 @@
+*{box-sizing:border-box;font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Arial}
+body{
+  margin:0; min-height:100vh;
+  background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+  display:flex; align-items:center; justify-content:center;
+  color:#fff;
+}
+.card{
+  width:420px; max-width:92vw;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+  backdrop-filter:blur(12px);
+  border-radius:16px;
+  padding:34px;
+  box-shadow:0 20px 40px rgba(0,0,0,.45);
+  text-align:center;
+}
+h1{margin:0 0 8px;font-size:30px;letter-spacing:1px}
+p.sub{margin:0 0 22px;color:#cfd8dc;font-size:14px}
+a.btn,button.btn{
+  display:block;width:100%;
+  padding:14px;margin:12px 0;
+  border:none;border-radius:12px;
+  background:linear-gradient(135deg,#00c6ff,#0072ff);
+  color:#fff;font-weight:600;font-size:15px;
+  text-decoration:none; cursor:pointer;
+  transition:.25s;
+}
+a.btn:hover,button.btn:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(0,0,0,.35)}
+.input{
+  width:100%; padding:12px 14px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.2);
+  background:rgba(0,0,0,.25);
+  color:#fff; outline:none;
+}
+label{display:block;text-align:left;margin:10px 0 6px;color:#dfe7ea;font-size:13px}
+.msg-ok{color:#7CFFB2;margin-top:12px}
+.msg-err{color:#FF8A8A;margin-top:12px}
+.small-link{display:inline-block;margin-top:12px;color:#b0bec5;text-decoration:none}
+.small-link:hover{text-decoration:underline}
+.icon{font-size:44px;margin-bottom:8px}

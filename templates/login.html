@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Login</h1>
+<p class="sub">Verify credentials & decrypt private key (RAM only)</p>
+
+<form method="post">
+  <label>Username</label>
+  <input class="input" name="username" required>
+
+  <label>Password</label>
+  <input class="input" name="password" type="password" required>
+
+  <button class="btn" type="submit">Login</button>
+</form>
+
+{% if success %}<div class="msg-ok">{{ success }}</div>{% endif %}
+{% if error %}<div class="msg-err">{{ error }}</div>{% endif %}
+
+<a class="small-link" href="{{ url_for('index') }}">← Back home</a>
+{% endblock %}

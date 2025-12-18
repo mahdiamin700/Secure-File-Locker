@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Decrypt File</h1>
+<p class="sub">Verify signature first, then decrypt</p>
+
+<form method="post">
+  <label>Username</label>
+  <input class="input" name="username" required>
+
+  <label>Password</label>
+  <input class="input" name="password" type="password" required>
+
+  <label>File ID</label>
+  <input class="input" name="file_id" required>
+
+  <button class="btn" type="submit">Verify & Decrypt</button>
+</form>
+
+{% if success %}
+  <div class="msg-ok">{{ success }}</div>
+{% endif %}
+
+{% if error %}
+  <div class="msg-err">{{ error }}</div>
+{% endif %}
+
+{% if token %}
+  <a class="btn" href="{{ url_for('download_plain', token=token) }}">
+    Download Decrypted File
+  </a>
+{% endif %}
+
+<a class="small-link" href="{{ url_for('index') }}">← Back home</a>
+{% endblock %}
+

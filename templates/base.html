@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title or "Crypto Vault" }}</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+  <!-- ✅ Added: styling for success message (msg-ok) -->
+  <style>
+    .msg-ok{
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: #e8fff0;
+      color: #0f5132;
+      border: 1px solid #b7f0c9;
+      font-weight: 500;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>
+

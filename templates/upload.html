@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Encrypt File</h1>
+<p class="sub">Encrypt (AES-CTR) + Sign (RSA-PSS)</p>
+
+<form method="post" enctype="multipart/form-data">
+  <label>Username</label>
+  <input class="input" name="username" required>
+
+  <label>Password</label>
+  <input class="input" name="password" type="password" required>
+
+  <label>File</label>
+  <input class="input" type="file" name="file" required>
+
+  <button class="btn" type="submit">Upload & Encrypt</button>
+</form>
+
+{% if success %}<div class="msg-ok">{{ success }}</div>{% endif %}
+{% if error %}<div class="msg-err">{{ error }}</div>{% endif %}
+
+{% if file_id %}
+  <form method="post" action="{{ url_for('download_encrypted', file_id=file_id) }}" style="margin-top:12px;">
+    <input type="hidden" name="username" value="{{ username }}">
+    <input type="hidden" name="password" value="{{ password }}">
+    <button class="btn" type="submit">⬇️ Download Encrypted File</button>
+  </form>
+  <p class="sub" style="margin-top:8px;">This downloaded file is the encrypted ciphertext.</p>
+{% endif %}
+
+<a class="small-link" href="{{ url_for('index') }}">← Back home</a>
+{% endblock %}
