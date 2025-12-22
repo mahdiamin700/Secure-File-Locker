@@ -310,7 +310,33 @@ def upload():
         password=password_keep
     )
 
-# ✅ Verify + Decrypt (shows message + button, does not download immediately)
+# ✅ Download Encrypted File button (fixes BuildError)
+@app.route("/download_encrypted/<int:file_id>", methods=["POST"])
+def download_encrypted(file_id):
+    username = request.form.get("username", "").strip()
+    password = request.form.get("password", "")
+
+    user = User.query.filter_by(username=username).first()
+    if not user or not user.check_password(password):
+        return "Invalid username or password", 401
+
+    file_row = File.query.get(file_id)
+    if not file_row or file_row.owner_id != user.id:
+        return "File not found or access denied", 404
+
+    enc_path = Path(file_row.storage_path)
+    if not enc_path.exists():
+        return "Encrypted file missing", 404
+
+    data = enc_path.read_bytes()
+    return send_file(
+        io.BytesIO(data),
+        as_attachment=True,
+        download_name=f"{file_row.file_name}.vault",
+        mimetype="application/octet-stream"
+    )
+
+# ✅ Verify + Decrypt (shows message + download button)
 @app.route("/download", methods=["GET", "POST"])
 def download():
     success_msg = ""
@@ -355,7 +381,7 @@ def download():
 
         enc_dict = json.loads(enc_path.read_text())
 
-        # ✅ verify signature BEFORE decrypt
+        # verify signature before decrypt
         payload_bytes = canonical_json_bytes(enc_dict)
         sig_bytes = b64d(sig_row.signature_b64)
 
@@ -381,7 +407,6 @@ def download():
         ))
         db.session.commit()
 
-        # ✅ store decrypted bytes temporarily to allow showing success message first
         token = uuid.uuid4().hex
         DECRYPT_CACHE[token] = {"filename": file_row.file_name, "data": plaintext}
 
@@ -389,10 +414,10 @@ def download():
 
     return render_template("download.html", title="Decrypt File", success=success_msg, error=error_msg, token=token)
 
-# ✅ actual download of decrypted file (after user clicks button)
+# ✅ actual download of decrypted file
 @app.route("/download_plain/<token>", methods=["GET"])
 def download_plain(token):
-    item = DECRYPT_CACHE.pop(token, None)  # remove after download
+    item = DECRYPT_CACHE.pop(token, None)
     if not item:
         return "Decrypted file expired or not found.", 404
 
